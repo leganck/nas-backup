@@ -1,0 +1,18 @@
+version: "3"
+services:
+  portainer:
+    image: portainer/portainer-ce:2.11.1-alpine
+    container_name: portainer
+    labels:
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+    volumes:
+      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gateway
+    external: true
