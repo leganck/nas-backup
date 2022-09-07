@@ -1,0 +1,29 @@
+version: "3"
+services:
+  registry:
+    container_name: registry
+    image: registry
+    labels:
+      - traefik.http.routers.registry.rule=Host(`registry.example.com`) && PathPrefix(`/v2/`)
+    volumes:
+      - /data/registry/data:/var/lib/registry
+      - /data/registry/config/config.yml:/etc/docker/registry/config.yml
+      - /data/registry/config/htpasswd:/etc/docker/registry/htpasswd
+
+    restart: unless-stopped
+    
+  registry-browser:
+    container_name: registry-browser
+    image: klausmeyer/docker-registry-browser
+    labels:
+      - traefik.http.routers.registry-browser.rule=Host(`registry.example.com`)
+    environment:
+      - DOCKER_REGISTRY_URL=http://registry:5000
+      - NO_SSL_VERIFICATION=false
+      - PUBLIC_REGISTRY_URL=registry.example.com
+      - ENABLE_DELETE_IMAGES=true
+    restart: unless-stopped
+networks:
+  default:
+    name: gateway
+    external: true

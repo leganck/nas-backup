@@ -1,0 +1,17 @@
+version: "3"
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /data/prometheus/config:/etc/prometheus
+
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gateway
+    external: true
+  

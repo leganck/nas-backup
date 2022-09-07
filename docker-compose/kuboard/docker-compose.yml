@@ -1,0 +1,16 @@
+version: "3"
+services:
+  kuboard:
+    image: eipwork/kuboard:v3
+    container_name: kuboard
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /data/kuboard/data:/data 
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gateway
+    external: true
+   

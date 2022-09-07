@@ -1,0 +1,14 @@
+version: "3"
+services:
+  homebox:
+    image: xgheaven/homebox
+    container_name: homebox
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gateway
+    external: true
+    

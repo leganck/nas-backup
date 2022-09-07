@@ -1,0 +1,15 @@
+version: "3"
+services:
+  asf:
+    image: justarchi/archisteamfarm
+    container_name: asf
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /data/asf/config:/app/config
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gateway
+    external: true

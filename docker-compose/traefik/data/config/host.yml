@@ -1,0 +1,10 @@
+http:
+  routers:
+    example:
+      service: example
+      rule: Host(`example.com`)||HostRegexp(`{subdomain:([a-z]+.)+}example.com`)
+  services:
+    example:
+      loadBalancer:
+        servers:
+        - url: http://127.0.0.1:1080

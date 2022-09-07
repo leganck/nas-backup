@@ -1,0 +1,42 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+api:
+  insecure: true
+  debug: false
+log:
+  level: INFO
+ping: {}
+providers:
+  docker:
+    constraints: "!Label(`traefik`,`false`)"
+    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service"}}.example.com`)'
+  file:
+    watch: true
+    directory: /data/config/
+    debugLogGeneratedTemplate: true
+entryPoints:
+  web:
+    address: ':80'
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ':443'
+    http:
+      tls: 
+        certResolver: dnspod
+        domains:
+          - main: example.com
+            sans:
+              - "*.example.com"
+
+certificatesResolvers:
+  dnspod:
+    acme:
+      storage: /data/ssl/acme.json
+      dnsChallenge:
+        provider: dnspod

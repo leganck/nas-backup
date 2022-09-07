@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  git:
+    image: gitea/gitea
+    container_name: gitea
+    labels:
+      - traefik.http.services.git.loadbalancer.server.port=3000
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    volumes:
+      - ./data/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gateway
+    external: true
