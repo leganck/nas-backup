@@ -11,7 +11,7 @@ services:
     - --configFile=/data/traefik.yml
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./data/traefik:/data
+      - /data/traefik:/data
     ports:
       - "80:80"
       - "443:443"
